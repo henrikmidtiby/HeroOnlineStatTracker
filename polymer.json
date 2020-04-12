@@ -1,0 +1,10 @@
+{
+  "entrypoint": "index.html",
+  "shell": "index.html",
+  "fragments": [
+  ],
+  "extraDependencies": [
+    "node_modules/jquery/**",
+    "node_modules/socket.io-client/**"
+  ]
+}
