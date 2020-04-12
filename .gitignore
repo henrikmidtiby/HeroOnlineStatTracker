@@ -1,0 +1,10 @@
+env/
+*.swp
+node_modules/
+build
+*.swo
+__pycache__
+.idea/
+app.db
+logfile.txt
+shared_canvasses/
