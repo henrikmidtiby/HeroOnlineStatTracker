@@ -15,7 +15,7 @@ import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='build')
 app.config['SECRET_KEY'] = os.urandom(20)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
