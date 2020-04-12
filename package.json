@@ -1,0 +1,19 @@
+{
+  "description": "Frontend code for ClassroomSharedDrawing",
+  "repository": "https://github.com/henrikmidtiby/HeroOnlineStatTracker",
+  "name": "HeroOnlineStatTracker",
+  "version": "0.1.0",
+  "main": "index.html",
+  "author": "Henrik Skov Midtiby",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "lit-element": "^2.2.1",
+    "lit-html": "^1.1.2",
+    "npm": "^6.13.4",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.4.0"
+  }
+}
