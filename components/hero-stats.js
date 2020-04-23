@@ -109,29 +109,48 @@ class HeroStats extends LitElement {
   // which then forwards it to the socketio connection with the server.
   
   set_stamina(new_stamina) {
-    this.stamina = parseInt(new_stamina);
+    var temp_stamina = parseInt(new_stamina);
+    if(temp_stamina != this.stamina)
+    {
+      this.emit_change_in_value_detected("stamina", this.stamina, temp_stamina);
+    }
+    this.stamina = temp_stamina;
     this.stamina_slider.value = this.stamina;
     this.stamina_value.innerHTML = this.stamina;
   }
 
   set_wounds(new_wounds) {
-    this.wounds = parseInt(new_wounds);
+    var temp_wounds = parseInt(new_wounds);
+    if(temp_wounds != this.wounds)
+    {
+      this.emit_change_in_value_detected("wounds", this.wounds, temp_wounds);
+    }
+    this.wounds = temp_wounds;
     this.wounds_slider.value = this.wounds;
     this.wounds_value.innerHTML = this.wounds;
   }
 
   stamina_slider_changed() {
-    console.log("Stamina was: ", this.stamina);
     this.set_stamina(this.stamina_slider.value);
-    console.log("Stamina changed to: ", this.stamina);
     this.emit_state_changed();
   }
 
   wounds_slider_changed() {
-    console.log("Wounds was: ", this.wounds);
     this.set_wounds(this.wounds_slider.value);
-    console.log("Wounds changed to: ", this.wounds);
     this.emit_state_changed();
+  }
+
+  emit_change_in_value_detected(stat, old_value, new_value) {
+    const value_change_detected = {
+      hero_id: this.id,
+      stat: stat, 
+      old_value: old_value, 
+      new_value: new_value 
+    };
+    let event = new CustomEvent('change_in_value_detected', {
+      detail: value_change_detected
+    });
+    this.dispatchEvent(event);
   }
 
   emit_state_changed() {

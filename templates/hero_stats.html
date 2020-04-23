@@ -26,19 +26,36 @@
   max_wounds=8
   image_src="https://vignette.wikia.nocookie.net/descent2e/images/d/d7/JainFairwood.png/revision/latest/scale-to-width-down/200?cb=20150428132150"></hero-stats>
 
+<div id="change_log"></div>
+
 <script type="text/javascript" charset="utf-8">
   var protocol = window.location.protocol;
   var socket = io.connect(protocol + '//' + document.domain + ':' + location.port);
 
-  document.getElementById("syndrael").addEventListener('hero_state_changed', pass_state_change_to_server);
-  document.getElementById("avric").addEventListener('hero_state_changed', pass_state_change_to_server);
-  document.getElementById("jain").addEventListener('hero_state_changed', pass_state_change_to_server);
+  document.querySelectorAll('hero-stats')
+      .forEach(input => input.addEventListener('hero_state_changed',
+        pass_state_change_to_server));
+  document.querySelectorAll('hero-stats')
+      .forEach(input => input.addEventListener('change_in_value_detected',
+        change_in_value_detected_callback));
 
   function pass_state_change_to_server(e) 
   {
     socket.emit('hero_state_changed_message_to_server', {
       data: e.detail
     })
+  }
+
+  function change_in_value_detected_callback(e) {
+    var d = new Date();
+    var n = d.toLocaleTimeString();
+    var message = n + " : " + e.detail.hero_id + " " + e.detail.stat + " changed from " +
+      e.detail.old_value + " to " + e.detail.new_value;
+
+    var change_log = document.getElementById("change_log");
+    var para = document.createElement("p");
+    para.innerText = message;
+    change_log.prepend(para); 
   }
 
   socket.on('hero_state_changed_from_server',
