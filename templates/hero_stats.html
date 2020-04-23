@@ -65,6 +65,24 @@
       hero.set_wounds(msg.data.wounds);
     });
 
+  // Request saved state from the server
+  setTimeout(function() {
+    socket.emit('request_saved_state', {
+        data: 'I want some data!'
+    });}, 
+    1000);
+
+  // Restore saved state
+  socket.on('saved_state_of_heroes', 
+    function(msg) {
+      Object.keys(msg).forEach(function(key) {
+          var message = msg[key].data;
+          var hero = document.getElementById(message.hero_id);
+          hero.set_stamina(message.stamina);
+          hero.set_wounds(message.wounds);
+      });
+    });
+
 </script>
 
 </body>
