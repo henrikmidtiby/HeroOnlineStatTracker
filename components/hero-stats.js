@@ -6,15 +6,17 @@ class HeroStats extends LitElement {
     return html`
     <div id="container">
       <h1>${this.hero_name}</h1>
-      <img src="${this.image_src}" />
+      <img class="hero" src="${this.image_src}" />
       <div>
         <div class="slidecontainer">
-          <p id="stamina_value">0</p>
+          <span id="stamina_value">0</span>
+          <img id="stat_img" src="https://vignette.wikia.nocookie.net/descent2e/images/b/b4/Fatigue.png/revision/latest/scale-to-width-down/10?cb=20121016005054" />
           <input class="vranger" type="range" min="0" max="${this.max_stamina}" value="${this.stamina}" id="stamina_slider" />
           <input class="max_value" type="number" id="max_stamina" min="1" max="7" value="${this.max_stamina}"/>
         </div>
         <div class="slidecontainer">
-          <p id="wounds_value">0</p>
+          <span id="wounds_value">0</span>
+          <img id="stat_img" src="https://vignette.wikia.nocookie.net/descent2e/images/d/d9/Heart.png/revision/latest/scale-to-width-down/15?cb=20121016005115" />
           <input class="vranger" type="range" min="0" max="${this.max_wounds}" value="${this.wounds}" id="wounds_slider" />
           <input class="max_value" type="number" id="max_wounds" min="1" max="30" value="${this.max_wounds}"/>
         </div>
@@ -27,7 +29,11 @@ class HeroStats extends LitElement {
         display: inline-block;
         width: 200px;
       }
-      #container img {
+      #stat_img { 
+        width: 10px;
+        height: 10px;
+      }
+      #container img.hero {
         height: 150px;
       }
       .slidecontainer { 
