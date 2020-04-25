@@ -44,7 +44,7 @@ class HeroStats extends LitElement {
         display: inline-block;
         position: relative;
         width: 50px; 
-        height: 280px; 
+        height: 360px; 
       }
       div.slidecontainer p {
         margin-top: 5px;
