@@ -13,12 +13,16 @@ class HeroStats extends LitElement {
           <img id="stat_img" src="https://vignette.wikia.nocookie.net/descent2e/images/b/b4/Fatigue.png/revision/latest/scale-to-width-down/10?cb=20121016005054" />
           <input class="vranger" type="range" min="0" max="${this.max_stamina}" value="${this.stamina}" id="stamina_slider" />
           <input class="max_value" type="number" id="max_stamina" min="1" max="7" value="${this.max_stamina}"/>
+          <p id="stamina_increase">+</p>
+          <p id="stamina_decrease">-</p>
         </div>
         <div class="slidecontainer">
           <span id="wounds_value">0</span>
           <img id="stat_img" src="https://vignette.wikia.nocookie.net/descent2e/images/d/d9/Heart.png/revision/latest/scale-to-width-down/15?cb=20121016005115" />
           <input class="vranger" type="range" min="0" max="${this.max_wounds}" value="${this.wounds}" id="wounds_slider" />
           <input class="max_value" type="number" id="max_wounds" min="1" max="30" value="${this.max_wounds}"/>
+          <p id="wounds_increase">+</p>
+          <p id="wounds_decrease">-</p>
         </div>
       </div>
     </div>
@@ -27,7 +31,7 @@ class HeroStats extends LitElement {
       #container { 
         position: relative; 
         display: inline-block;
-        width: 200px;
+        width: 180px;
       }
       #stat_img { 
         width: 10px;
@@ -96,9 +100,17 @@ class HeroStats extends LitElement {
     this.stamina_value = this.shadowRoot.querySelector("#stamina_value");
     this.wounds_slider = this.shadowRoot.querySelector("#wounds_slider");
     this.wounds_value = this.shadowRoot.querySelector("#wounds_value");
+    this.stamina_increase = this.shadowRoot.querySelector("#stamina_increase");
+    this.stamina_decrease = this.shadowRoot.querySelector("#stamina_decrease");
+    this.wounds_increase = this.shadowRoot.querySelector("#wounds_increase");
+    this.wounds_decrease = this.shadowRoot.querySelector("#wounds_decrease");
 
     this.wounds_slider.addEventListener("change", () => {this.wounds_slider_changed()}, false);
     this.stamina_slider.addEventListener("change", () => {this.stamina_slider_changed()}, false);
+    this.stamina_increase.addEventListener("click", () => {this.stamina_increase_callback()}, false);
+    this.stamina_decrease.addEventListener("click", () => {this.stamina_decrease_callback()}, false);
+    this.wounds_increase.addEventListener("click", () => {this.wounds_increase_callback()}, false);
+    this.wounds_decrease.addEventListener("click", () => {this.wounds_decrease_callback()}, false);
   }
 
   event_handler(e) {
@@ -134,6 +146,26 @@ class HeroStats extends LitElement {
     this.wounds = temp_wounds;
     this.wounds_slider.value = this.wounds;
     this.wounds_value.innerHTML = this.wounds;
+  }
+
+  stamina_increase_callback() {
+    this.set_stamina(this.stamina + 1);
+    this.emit_state_changed();
+  }
+
+  stamina_decrease_callback() {
+    this.set_stamina(this.stamina - 1);
+    this.emit_state_changed();
+  }
+
+  wounds_increase_callback() {
+    this.set_wounds(this.wounds + 1);
+    this.emit_state_changed();
+  }
+
+  wounds_decrease_callback() {
+    this.set_wounds(this.wounds - 1);
+    this.emit_state_changed();
   }
 
   stamina_slider_changed() {
