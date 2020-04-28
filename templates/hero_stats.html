@@ -75,6 +75,8 @@
       var hero = document.getElementById(msg.data.hero_id);
       hero.set_stamina(msg.data.stamina);
       hero.set_wounds(msg.data.wounds);
+      hero.set_max_stamina(msg.data.stamina_max);
+      hero.set_max_wounds(msg.data.wounds_max);
     });
 
   // Request saved state from the server

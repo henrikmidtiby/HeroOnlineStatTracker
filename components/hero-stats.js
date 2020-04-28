@@ -12,7 +12,7 @@ class HeroStats extends LitElement {
           <span id="stamina_value">0</span>
           <img id="stat_img" src="https://vignette.wikia.nocookie.net/descent2e/images/b/b4/Fatigue.png/revision/latest/scale-to-width-down/10?cb=20121016005054" />
           <input class="vranger" type="range" min="0" max="${this.max_stamina}" value="${this.stamina}" id="stamina_slider" />
-          <input class="max_value" type="number" id="max_stamina" min="1" max="7" value="${this.max_stamina}"/>
+          <input class="max_value" type="number" id="max_stamina" min="1" max="20" value="${this.max_stamina}"/>
           <p id="stamina_increase">inc</p>
           <p id="stamina_decrease">dec</p>
         </div>
@@ -20,7 +20,7 @@ class HeroStats extends LitElement {
           <span id="wounds_value">0</span>
           <img id="stat_img" src="https://vignette.wikia.nocookie.net/descent2e/images/d/d9/Heart.png/revision/latest/scale-to-width-down/15?cb=20121016005115" />
           <input class="vranger" type="range" min="0" max="${this.max_wounds}" value="${this.wounds}" id="wounds_slider" />
-          <input class="max_value" type="number" id="max_wounds" min="1" max="30" value="${this.max_wounds}"/>
+          <input class="max_value" type="number" id="max_wounds" min="1" max="100" value="${this.max_wounds}"/>
           <p id="wounds_increase">inc</p>
           <p id="wounds_decrease">dec</p>
         </div>
@@ -100,13 +100,17 @@ class HeroStats extends LitElement {
   firstUpdated(changedParameters) {
     this.stamina_slider = this.shadowRoot.querySelector("#stamina_slider");
     this.stamina_value = this.shadowRoot.querySelector("#stamina_value");
+    this.max_stamina_input = this.shadowRoot.querySelector("#max_stamina");
     this.wounds_slider = this.shadowRoot.querySelector("#wounds_slider");
     this.wounds_value = this.shadowRoot.querySelector("#wounds_value");
+    this.max_wounds_input = this.shadowRoot.querySelector("#max_wounds");
     this.stamina_increase = this.shadowRoot.querySelector("#stamina_increase");
     this.stamina_decrease = this.shadowRoot.querySelector("#stamina_decrease");
     this.wounds_increase = this.shadowRoot.querySelector("#wounds_increase");
     this.wounds_decrease = this.shadowRoot.querySelector("#wounds_decrease");
 
+    this.max_stamina_input.addEventListener("change", () => {this.max_stamina_input_changed()}, false);
+    this.max_wounds_input.addEventListener("change", () => {this.max_wounds_input_changed()}, false);
     this.wounds_slider.addEventListener("change", () => {this.wounds_slider_changed()}, false);
     this.stamina_slider.addEventListener("change", () => {this.stamina_slider_changed()}, false);
     this.stamina_increase.addEventListener("click", () => {this.stamina_increase_callback()}, false);
@@ -128,8 +132,22 @@ class HeroStats extends LitElement {
   } // Dispatch an event, that should be caught by the main web app, 
   // which then forwards it to the socketio connection with the server.
   
+  max_stamina_input_changed(e) {
+    this.emit_change_in_value_detected("max_stamina", this.max_stamina, this.max_stamina_input.value);
+    this.max_stamina = this.max_stamina_input.value;
+    this.emit_state_changed();
+  }
+  
+  max_wounds_input_changed(e) {
+    this.emit_change_in_value_detected("max_wounds", this.max_wounds, this.max_wounds_input.value);
+    this.max_wounds = this.max_wounds_input.value;
+    this.emit_state_changed();
+  }
+  
   set_stamina(new_stamina) {
     var temp_stamina = parseInt(new_stamina);
+    temp_stamina = Math.max(temp_stamina, 0);
+    temp_stamina = Math.min(temp_stamina, this.max_stamina);
     if(temp_stamina != this.stamina)
     {
       this.emit_change_in_value_detected("stamina", this.stamina, temp_stamina);
@@ -139,8 +157,20 @@ class HeroStats extends LitElement {
     this.stamina_value.innerHTML = this.stamina;
   }
 
+  set_max_stamina(new_stamina_max)
+  {
+    if(this.max_stamina != new_stamina_max)
+    {
+      this.emit_change_in_value_detected("max_stamina", this.max_stamina, new_stamina_max);
+    }
+    this.max_stamina = new_stamina_max;
+    this.max_stamina_input.value = this.max_stamina;
+  }
+
   set_wounds(new_wounds) {
     var temp_wounds = parseInt(new_wounds);
+    temp_wounds = Math.max(temp_wounds, 0);
+    temp_wounds = Math.min(temp_wounds, this.max_wounds);
     if(temp_wounds != this.wounds)
     {
       this.emit_change_in_value_detected("wounds", this.wounds, temp_wounds);
@@ -148,6 +178,16 @@ class HeroStats extends LitElement {
     this.wounds = temp_wounds;
     this.wounds_slider.value = this.wounds;
     this.wounds_value.innerHTML = this.wounds;
+  }
+
+  set_max_wounds(new_wounds_max)
+  {
+    if(this.max_wounds != new_wounds_max)
+    {
+      this.emit_change_in_value_detected("max_wounds", this.max_wounds, new_wounds_max);
+    }
+    this.max_wounds = new_wounds_max;
+    this.max_wounds_input.value = this.max_wounds;
   }
 
   stamina_increase_callback() {
@@ -197,7 +237,9 @@ class HeroStats extends LitElement {
     const wounds_changed = {
       hero_id: this.id,
       stamina: this.stamina,
-      wounds: this.wounds
+      stamina_max: this.max_stamina,
+      wounds: this.wounds,
+      wounds_max: this.max_wounds
     };
     let event = new CustomEvent('hero_state_changed', {
       detail: wounds_changed
