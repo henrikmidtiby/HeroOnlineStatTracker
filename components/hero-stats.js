@@ -31,7 +31,7 @@ class HeroStats extends LitElement {
       #container { 
         position: relative; 
         display: inline-block;
-        width: 180px;
+        width: 140px;
       }
       #stat_img { 
         width: 10px;
