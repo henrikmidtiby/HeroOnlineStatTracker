@@ -6,13 +6,13 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-eventlet = "*"
+eventlet = "==0.30.2"
 gunicorn = "*"
-Flask-SocketIO = "*"
 Flask-Login = "*"
 Flask-SQLAlchemy = "*"
 Flask-Migrate = "*"
 sqlalchemy = "*"
+flask-socketio = "==4.3.2"
 
 [requires]
-python_version = "3.6"
+python_version = "3"
