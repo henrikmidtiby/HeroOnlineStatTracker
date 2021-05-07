@@ -12,7 +12,7 @@ Flask-Login = "*"
 Flask-SQLAlchemy = "*"
 Flask-Migrate = "*"
 sqlalchemy = "*"
-flask-socketio = "==4.3.2"
+flask-socketio = "*"
 
 [requires]
 python_version = "3"
