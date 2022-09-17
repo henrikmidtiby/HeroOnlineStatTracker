@@ -1,9 +1,3 @@
-activate_virtual_environment: 
-	source env/bin/activate
-
-install_requirements:
-	pip3 install -r requirements.txt
-
 rundevelopmentserver:
 	# FLASK_APP=app.py FLASK_ENV=development flask run
 	FLASK_APP=app.py flask run
