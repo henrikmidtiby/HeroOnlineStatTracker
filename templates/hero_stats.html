@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <script type="module" src="{{ url_for('static', filename='default/components/hero-stats.js')}}"></script>
-  <script src="{{ url_for('static', filename='default/node_modules/socket.io-client/dist/socket.io.js')}}"></script>
+  <script src="{{ url_for('static', filename='webpack_bundle.js')}}"></script>
 </head>
 <body>
 
@@ -49,6 +48,7 @@
 
 <script type="text/javascript" charset="utf-8">
   var protocol = window.location.protocol;
+  setTimeout(function() {
   var socket = io.connect(protocol + '//' + document.domain + ':' + location.port);
 
   document.querySelectorAll('hero-stats')
@@ -103,6 +103,7 @@
           hero.set_wounds(message.wounds);
       });
     });
+  }, 1000);
 
 </script>
 
