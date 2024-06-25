@@ -31,12 +31,14 @@ memory = {}
 
 @socketio.on('hero_state_changed_message_to_server')
 def handle_hero_state_changed(msg):
+    app.logger.info("hero_state_changed_message_to_server")
     memory[msg['data']['hero_id']] = msg
     socketio.emit('hero_state_changed_from_server', msg, 
             broadcast=True)
 
 @socketio.on('request_saved_state')
 def handle_request_saved_state(msg):
+    app.logger.info("request_saved_state")
     socketio.emit('saved_state_of_heroes', memory, 
             broadcast=True)
 
