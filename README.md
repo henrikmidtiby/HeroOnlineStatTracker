@@ -7,7 +7,7 @@ Installing javascript dependencies
 ```
 npm install
 npm run build
-cp node_modules/socket.io-client/dist/socket.io.min.js dist/
+cp node_modules/socket.io-client/dist/socket.io.js dist/
 ```
 
 Create a python virtual environment
