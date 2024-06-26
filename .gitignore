@@ -1,3 +1,4 @@
+dist/
 env/
 *.swp
 node_modules/
