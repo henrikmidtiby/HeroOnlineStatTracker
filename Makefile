@@ -13,4 +13,11 @@ rungunicornserver:
 	#gunicorn --worker-class eventlet -w 1 app:app -b 0.0.0.0:8000 --log-level=DEBUG --no-sendfile --log-file logfile.txt --log-level=info
 
 	# Use this for console logs
-	uv run gunicorn --worker-class eventlet -w 1 app:app -b 0.0.0.0:8000 --log-level=DEBUG --no-sendfile --log-file=- --log-level=info
+	# uv run gunicorn --worker-class eventlet -w 1 app:app -b 0.0.0.0:8000 --log-level=DEBUG --no-sendfile --log-file=- --log-level=info
+	uv run gunicorn --reload --worker-class gevent --worker-connections 1000 app:app -b 0.0.0.0:8000 --log-level=DEBUG --no-sendfile
+
+build:
+	npm run build
+
+syncinstallation:
+	npm ci
